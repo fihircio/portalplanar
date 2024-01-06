@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('title', document.getElementById('title').value); // Add title field
         formData.append('description', document.getElementById('description').value); // Add description field
 
+     
+
          // Assuming you have an element to display the file path
          const modelPathElement = document.getElementById('model-path');
          if (modelPathElement) {
@@ -26,6 +28,30 @@ document.addEventListener('DOMContentLoaded', function () {
          }
  
          console.log('Model file uploaded:', file);
+
+         fetch('/content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data);
+            // Handle the response as needed
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+   
+    
     }
 
     function handleSketchfabUpload(sketchfabUrlOrId) {

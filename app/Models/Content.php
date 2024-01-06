@@ -24,17 +24,13 @@ class Content extends Model
     {
         return $this->hasOne(Data::class);
     }
-    public function setEntryKeyAttribute($value)
-    {
-       
-        $this->attributes['entry_key'] = $value; // Adjust the length as needed
-    }
+  
 
     public function getModelPathAttribute()
     {
         // Assuming 'model_path' is the column in your contents table
         return $this->attributes['model_path']
-            ? asset('storage/' . $this->attributes['model_path'])
+            ? asset('storage/models/' . $this->attributes['model_path'])
             : null;
     }
 

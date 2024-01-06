@@ -55,4 +55,18 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error("Error deleting row: Row not found");
         }
     }
+
+    function downloadMetadata(title, description) {
+        const metadata = {
+            title: title,
+            description: description,
+        };
+    
+        const blob = new Blob([JSON.stringify(metadata)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${title}_metadata.json`;
+        link.click();
+    }
+    
 });

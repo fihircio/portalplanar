@@ -44,16 +44,17 @@
                         <!-- Example content item -->
                         <div class="bg-gray-100 p-4 rounded-md">
 
-                                    
-                        <div class="model-container" id="model-container-{{ $contentItem->id }}" data-model-path="{{ asset( $contentItem->model_path) }}"></div>  
-                                         
+                           
+                       <div class="model-container" id="model-container-{{ $contentItem->id }}" data-model-path="{{ asset( $contentItem->model_path) }}"></div>  
+                        
+               
                             <!-- Content item details -->
                             <h4 class="text-lg font-semibold mb-2 text-black">{{ $contentItem->title }}</h4>
                             <p class="text-gray-600">{{ $contentItem->description }}</p>
 
                             <!-- Download and Delete buttons -->
                             <div class="mt-4 flex space-x-4">
-                                <button class="px-4 py-2 bg-blue-500 text-white rounded-md">Download</button>
+                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md" onclick="downloadModelAndMetadata('{{ $contentItem->title }}', '{{ $contentItem->description }}', '{{ asset($contentItem->model_path) }}')">Download Model and Metadata</a>
                                 <button class="px-2 py-1 bg-red-500 text-white rounded-md" data-content-id="{{ $contentItem->id }}" onclick="confirmDeleteContent(this)">Delete</button>
                             </div>
                             <!-- Add more details or buttons as needed -->

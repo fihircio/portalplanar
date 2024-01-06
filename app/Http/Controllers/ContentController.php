@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ContentController extends Controller
 {
+   
     public function index(): View
     {
           // Retrieve the currently authenticated user
@@ -24,6 +25,7 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -34,11 +36,12 @@ class ContentController extends Controller
         // Check if the user is authenticated
         if (auth()->check()) {
              // Create a unique folder name using timestamp
-             $folderName = '/storage/models/' . now()->timestamp;
+             $folderName = 'models/' . now()->timestamp;
              // Local File Upload
              if ($request->hasFile('model_file')) {
                 $file = $request->file('model_file');
-                $filePath = $file->store($folderName, 'public'); // Save the file to storage
+                $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $filePath = $file->storeAs($folderName, $fileName . '.' . $file->getClientOriginalExtension(), 'public');
 
                 // Add the file path to the request data
                 $request->merge(['model_path' => Storage::url($filePath)]);

@@ -31,12 +31,12 @@ function addNewDataToContent(row) {
         body: JSON.stringify({
         content_id: contentId,
         entry_key: entryKey,
-       data1: data1.value,
+       data1: data1,
        /*  data2: data2.value,
         data3: data3.value,
         data4: data4.value,
         data5: data5.value,*/
-        input_text: inputText.value,
+        input_text: inputText,
         // Add other data fields as needed
         }),
         })
