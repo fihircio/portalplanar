@@ -19,10 +19,13 @@ class Data extends Model
     {
         return $this->belongsTo(User::class);
     }*/
-    
-    public function setContentIdAttribute($value)
+     // Move the logic to generate entry_key to the boot method
+    protected static function boot()
     {
-        $this->attributes['content_id'] = $value;
-        $this->attributes['entry_key'] = Str::random(10); // Adjust the length as needed
+        parent::boot();
+
+        static::creating(function ($data) {
+            $data->entry_key = Str::random(10); // Adjust the length as needed
+        });
     }
 }

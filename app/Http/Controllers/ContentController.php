@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+
 class ContentController extends Controller
 {
    
@@ -25,7 +26,7 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -35,6 +36,7 @@ class ContentController extends Controller
 
         // Check if the user is authenticated
         if (auth()->check()) {
+            $user = Auth::user();
              // Create a unique folder name using timestamp
              $folderName = 'models/' . now()->timestamp;
              // Local File Upload
@@ -44,21 +46,24 @@ class ContentController extends Controller
                 $filePath = $file->storeAs($folderName, $fileName . '.' . $file->getClientOriginalExtension(), 'public');
 
                 // Add the file path to the request data
-                $request->merge(['model_path' => Storage::url($filePath)]);
+                $request->merge([
+                    'user_id' => $user->id,
+                    'entry_key' => uniqid(), // Adjust this based on your requirements
+                    'model_path' => $filePath,
+                ]);
             }
 
              // Sketchfab Upload
-            if ($request->filled('sketchfab_input')) {
-            $request->merge(['model_path' => $request->input('sketchfab_input')]);
-            }
-
-            
-            
+             if ($request->filled('sketchfab_input')) {
+                $request->merge([
+                    'user_id' => $user->id,
+                    'entry_key' => uniqid(), // Adjust this based on your requirements
+                    'model_path' => $request->input('sketchfab_input'),
+                ]);
+   
              // Save the content to the database
             Content::create($request->all());
-          
-    
-            
+  
             if ($request->ajax()) {
                 return response()->json(['message' => 'Content created successfully']);
             } else {
@@ -68,6 +73,7 @@ class ContentController extends Controller
     
         // Handle the case where the user is not authenticated (optional)
         return redirect()->route('login')->with('error', 'Please log in to create content.');
+        }
     }
 
     public function destroy($id)
@@ -82,4 +88,6 @@ class ContentController extends Controller
         // Return a response (e.g., JSON response)
         return response()->json(['message' => 'Content deleted successfully']);
     }
+
+ 
 }

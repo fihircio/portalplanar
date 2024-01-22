@@ -24,9 +24,16 @@ class ContentSeeder extends Seeder
         $dataEntries = Data::pluck('entry_key')->toArray();
 
         foreach ($dataEntries as $dataEntry) {
-            Content::factory()->create([
-                'entry_key' => $dataEntry,
-            ]);
+             // Check if the entry_key already exists in Content
+             $existingContent = Content::where('entry_key', $dataEntry)->first();
+
+             // Create Content only if the entry_key doesn't exist
+             if (!$existingContent) {
+                 Content::factory()->create([
+                     'entry_key' => $dataEntry,
+
+                ]);
+            }
         }
     }
 }

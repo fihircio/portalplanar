@@ -28,14 +28,17 @@ document.addEventListener('DOMContentLoaded', function () {
          }
  
          console.log('Model file uploaded:', file);
-
+         
+         const headers = {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        };
+        
          fetch('/content', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                headers: headers,
+                body: formData,
             },
-            body: formData,
         })
         .then(response => {
             if (!response.ok) {

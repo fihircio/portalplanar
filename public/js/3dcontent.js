@@ -69,7 +69,7 @@ function loadModel(container, scene, camera, renderer) {
         console.error('Error loading 3D model:', error);
         
         //obj & mtl load
-        var mesh = null;
+       /* var mesh = null;
 
         var mtlLoader = new THREE.MTLLoader(); 
          
@@ -82,7 +82,7 @@ function loadModel(container, scene, camera, renderer) {
               mesh = object;
               scene.add( mesh );
           });
-        });
+        });*/
     });
 }
        

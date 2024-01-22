@@ -2,9 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
-
-
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FetchContentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,8 +15,16 @@ use App\Http\Controllers\Api\UserController;
 |
 */
 
+// Your existing route for getting the authenticated user
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-    Route::get('/user', [UserController::class, 'index']);
-
 });
+
+// Additional route for user login
+Route::post('/login', [AuthController::class, 'login']);
+
+// Additional route for fetching user-specific content
+Route::middleware('auth:sanctum')->get('/user/content', [FetchContentController::class, 'fetchUserContent']);
+
+
+

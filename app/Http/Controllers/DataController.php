@@ -46,7 +46,7 @@ class DataController extends Controller
         // Create a new Data model instance
         $data = new Data();
         $data->content_id = $request->input('content_id');
-        $data->entry_key = $request->input('entry_key');
+        //$data->entry_key = $request->input('entry_key');
         $data->key = $request->input('data1');
       /*  $data->key = $request->input('data2');
         $data->key = $request->input('data3');

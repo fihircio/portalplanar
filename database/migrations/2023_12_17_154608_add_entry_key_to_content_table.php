@@ -20,7 +20,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('contents', function (Blueprint $table) {
-            $table->dropForeign(['entry_key']);
+            $table->dropUnique(['entry_key']);
             $table->dropColumn('entry_key');
         });
 

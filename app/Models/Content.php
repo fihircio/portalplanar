@@ -10,19 +10,21 @@ class Content extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id', // Add user_id to the fillable array
+        'entry_key', // Add entry_key to the fillable array
+        'model_path',
         'title',
         'description',
-        'model_path', 
         // Add more fields as needed
     ];
 
-  /*  public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
-    }*/
+    }
     public function data()
     {
-        return $this->hasOne(Data::class);
+        return $this->hasMany(Data::class, 'entry_key', 'entry_key');
     }
   
 
