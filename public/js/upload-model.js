@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const sketchfabInput = document.getElementById('sketchfab-input'); // Assuming you have an input field with the id 'sketchfab-input'
+    const sketchfabInput = document.getElementById('sketchfab-input');
     const modelFileInput = document.getElementById('model-file');
 
     modelFileInput.addEventListener('change', function () {
@@ -11,34 +11,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function handleModelFileUpload(file) {
-        // Handle model file upload logic
-        // You can use the FormData API to send the file to your server
         const formData = new FormData();
         formData.append('model_file', file);
-        formData.append('title', document.getElementById('title').value); // Add title field
-        formData.append('description', document.getElementById('description').value); // Add description field
+        formData.append('title', document.getElementById('title').value);
+        formData.append('description', document.getElementById('description').value);
 
-     
+        const modelPathElement = document.getElementById('model-path');
+        if (modelPathElement) {
+            modelPathElement.textContent = `Selected Model File: ${file.name}`;
+        }
 
-         // Assuming you have an element to display the file path
-         const modelPathElement = document.getElementById('model-path');
-         if (modelPathElement) {
-             // Set the file path in the element (you might need to adjust this based on your actual HTML structure)
-             modelPathElement.textContent = `Selected Model File: ${file.name}`;
-         }
- 
-         console.log('Model file uploaded:', file);
-         
-         const headers = {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        console.log('Model file uploaded:', file);
+
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        const headers = {
+            'X-CSRF-TOKEN': csrfToken,
         };
-        
-         fetch('/content', {
+
+        fetch('/content', {
             method: 'POST',
-            headers: {
-                headers: headers,
-                body: formData,
-            },
+            headers: headers,
+            body: formData,
         })
         .then(response => {
             if (!response.ok) {
@@ -52,9 +45,15 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error('Error:', error);
+            if (error.response) {
+            // Log the full response for debugging
+            return error.response.text().then(text => {
+                console.error('Full server response:', text);
+            });
+            } else {
+                console.error('No response received.');
+            }        
         });
-   
-    
     }
 
     function handleSketchfabUpload(sketchfabUrlOrId) {
@@ -72,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const modelDescription = data.description;
             const modelFileUrl = data.files.find(file => file.quality === 'original').url;
 
-            // Now you can handle the retrieved information as needed in your application
             console.log('Model Title:', modelTitle);
             console.log('Model Description:', modelDescription);
             console.log('Model File URL:', modelFileUrl);
@@ -84,6 +82,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
-
-

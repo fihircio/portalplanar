@@ -26,12 +26,12 @@ class ContentController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request->all());
+       // dd($request->all());
         $request->validate([
             'title' => 'required',
-            'description' => 'required',
-            'model_file' => 'required_without:sketchfab_input|file|mimes:glb,gltf|max:25600',
-            'sketchfab_input' => 'required_without:model_file|url', // Adjust the validation rules as needed
+            'description' => 'required|min:10|max:255',
+            'model_file' => 'required_without:sketchfab_input|file|mimes:glb,gltf,obj,fbx|max:25600',
+            'sketchfab_input' => 'required_without:model_file|url|other_validation_rules',
         ]);
 
         // Check if the user is authenticated
@@ -47,8 +47,8 @@ class ContentController extends Controller
 
                 // Add the file path to the request data
                 $request->merge([
-                    'user_id' => $user->id,
-                    'entry_key' => uniqid(), // Adjust this based on your requirements
+                    'user_id' => 'required|exists:users,id',
+                    'entry_key' => 'unique:contents,entry_key,NULL,id,user_id,' . auth()->id(),
                     'model_path' => $filePath,
                 ]);
             }
@@ -56,8 +56,8 @@ class ContentController extends Controller
              // Sketchfab Upload
              if ($request->filled('sketchfab_input')) {
                 $request->merge([
-                    'user_id' => $user->id,
-                    'entry_key' => uniqid(), // Adjust this based on your requirements
+                    'user_id' => 'required|exists:users,id',
+                    'entry_key' => 'unique:contents,entry_key,NULL,id,user_id,' . auth()->id(),
                     'model_path' => $request->input('sketchfab_input'),
                 ]);
    
