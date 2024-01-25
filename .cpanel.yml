@@ -2,5 +2,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/eeelab46/public_html/planar
+    - export DEPLOYPATH=/home/eeelab46/public_html/planar/
     - /bin/cp -R * $DEPLOYPATH

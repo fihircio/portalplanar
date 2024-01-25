@@ -15,44 +15,44 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append('model_file', file);
         formData.append('title', document.getElementById('title').value);
         formData.append('description', document.getElementById('description').value);
-
+    
         const modelPathElement = document.getElementById('model-path');
         if (modelPathElement) {
             modelPathElement.textContent = `Selected Model File: ${file.name}`;
         }
-
+    
         console.log('Model file uploaded:', file);
-
+    
         const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-        const headers = {
-            'X-CSRF-TOKEN': csrfToken,
-        };
-
+    
         fetch('/content', {
             method: 'POST',
-            headers: headers,
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+            },
             body: formData,
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             console.log('Server response:', data);
             // Handle the response as needed
         })
         .catch(error => {
             console.error('Error:', error);
+    
             if (error.response) {
-            // Log the full response for debugging
-            return error.response.text().then(text => {
-                console.error('Full server response:', text);
-            });
+                // Log the full response for debugging
+                return error.response.text().then(text => {
+                    console.error('Full server response:', text);
+                });
             } else {
                 console.error('No response received.');
-            }        
+    
+                // Log additional information about the error
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+            }
         });
     }
 
