@@ -1,4 +1,8 @@
-function confirmDelete(row) {
+document.addEventListener('DOMContentLoaded', function () {
+    // Add Data button click event
+    console.log('Confirm delete js Script loaded');
+
+ window.confirmDeleteRow = function(row) {
     if (confirm("Are you sure you want to delete this data?")) {
         // Perform the delete action here
         // You can remove the row or take any other necessary action
@@ -9,12 +13,14 @@ function confirmDelete(row) {
     }
 }
 
-function confirmDelete(button) {
+window.confirmDelete = function(button) {
     if (confirm("Are you sure you want to delete this data?")) {
         const dataId = button.getAttribute('data-id');
         deleteData(dataId);
     }
 }
+
+
 
 function deleteData(dataId) {
     fetch(`/data/delete/${dataId}`, {
@@ -44,3 +50,4 @@ function deleteData(dataId) {
         // Handle errors as needed
     });
 }
+});

@@ -26,19 +26,22 @@ class ContentController extends Controller
 
     public function store(Request $request)
 {
+    //dd($request->all());
     $request->validate([
         'title' => 'required',
         'description' => 'required|min:10|max:255',
-        'model_file' => 'required_without:sketchfab_input|file|mimes:glb,gltf,obj,fbx|max:25600',
-        'sketchfab_input' => 'required_without:model_file|url',
+       // 'model_file' => 'required_without:sketchfab_input|file|mimes:glb,gltf,obj,fbx|max:25600',
+       // 'sketchfab_input' => 'required_without:model_file|url',
     ]);
 
+    
     // Check if the user is authenticated
     if (auth()->check()) {
         $user = Auth::user();
 
         // Create a unique folder name using timestamp
         $folderName = 'models/' . now()->timestamp;
+
 
         // Set common attributes
         $commonAttributes = [
@@ -54,30 +57,29 @@ class ContentController extends Controller
             $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
             $filePath = $file->storeAs($folderName, $fileName . '.' . $file->getClientOriginalExtension(), 'public');
             $commonAttributes['model_path'] = $filePath;
-        }
-
-        if ($request->filled('sketchfab_input')) {
+           
+        } elseif ($request->filled('sketchfab_input')) {
             // Handle Sketchfab upload
             $commonAttributes['model_path'] = $request->input('sketchfab_input');
-        }
-
-        try {
-            $content = Content::create($commonAttributes);
-            $content->save();
-
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Content created successfully']);
-            } else {
-                return response()->json(['message' => 'Content created successfully']);
-            }
-        } catch (\Exception $e) {
-            // Log the exception for better error tracking
-            \Log::error($e);
-            return response()->json(['error' => 'Failed to create content'], 500);
-        }
+        } 
     }
-
-    // Handle the case where the user is not authenticated (optional)
+    try {
+        $content = Content::create($commonAttributes);
+        $content->save();
+        
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Content created successfully']);
+        } else {
+            return redirect()->route('content.index')->with('success', 'Content created successfully');
+        }
+    
+    } catch (\Exception $e) {
+        // Log the exception for better error tracking
+        dd($e->getMessage());
+        \Log::error($e);
+      // return response()->json(['error' => 'Failed to create content. ' . $e->getMessage()], 500);
+       return response()->json(['error' => 'Failed to create content'], 500);
+    }
     return response()->json(['error' => 'Please log in to create content'], 401);
 }
 
@@ -104,6 +106,37 @@ class ContentController extends Controller
         Storage::delete($modelPath);
 
         return response()->json(['message' => 'File deleted successfully']);
+    }
+
+    public function generateQRCode(Request $request)
+    {
+        $contentId = $request->input('contentId');
+        $mode = $request->input('mode');
+
+        // Retrieve the content item by ID
+        $contentItem = Content::findOrFail($contentId);
+
+        // Generate QR code based on the selected mode
+        $redirectURL = $mode === 'floor' ? '/floor-mode-url' : '/image-mode-url';
+        $qrCodeURL = $this->generateQRCodeURL($contentItem, $redirectURL);
+
+        // Return the QR code URL
+        return response()->json(['qrCodeURL' => $qrCodeURL]);
+    }
+
+    private function generateQRCodeURL(Content $contentItem, $redirectURL)
+    {
+        // Customize this function to generate the QR code URL based on your needs
+        // You can use the qrious library to generate QR codes
+
+        $data = [
+            'title' => $contentItem->title,
+            'description' => $contentItem->description,
+            'model_path' => asset($contentItem->model_path),
+            'redirect_url' => $redirectURL,
+        ];
+
+        return json_encode($data);
     }
 
  

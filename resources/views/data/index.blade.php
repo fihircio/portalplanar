@@ -20,12 +20,11 @@
                         <h4 class="text-lg font-bold mb-2">Content ID: {{ $contentId }}</h4>
                         @if($dataItems->isNotEmpty()) {{-- Check if there are data items --}} 
                         <!-- Table -->
-                            <table class="w-full">
-                            <table id="data-table">
+                            <table id="data-table-{{ $contentId }}" class="w-full">
                                 <thead>
                                     <tr>
                                         <th class="text-black flex items-center">
-                                            <button id="add-data-button" class="ml-2 px-2 py-1 bg-green-500 text-white rounded-md">+ Add Data</button>
+                                        <button onclick="addData('{{ $contentId }}')" class="ml-2 px-2 py-1 bg-green-500 text-white rounded-md">+ Add Data</button>                          
                                         </th>
                                         <th class="text-black">Key</th>
                                         <th class="text-black">Value</th>
@@ -33,32 +32,33 @@
                                 </thead>
                                 <tbody>
                                     <!-- Hidden row template -->
-                                    <tr id="data-row-template" style="display: none;">
+                                    <tr id="data-row-template-{{ $contentId }}" style="display: none;">
                                         <td class="flex space-x-2">
                                         <button class="px-2 py-1 bg-green-500 text-white rounded-md" onclick="confirmData(this.parentNode.parentNode)"data-key-selector="#data-key-select"
                                             data-value-selector="#data-value-input" class="px-2 py-1 bg-green-500 text-white rounded-md">Confirm</button>
-                                        <button onclick="confirmDelete(this.parentNode.parentNode)" class="px-2 py-1 bg-red-500 text-white rounded-md">Delete</button>
-                                        </td>
+                                        <button onclick="confirmDeleteRow(this.parentNode.parentNode)" class="px-2 py-1 bg-red-500 text-white rounded-md">Delete</button>
+                                        
+                                    </td>
                                         <td>
                                             <select class="text-black">
                                                 <!-- Add your dropdown options -->
-                                                <option value="data1">Data 1</option>
-                                                <option value="data2">Data 2</option>
-                                                <option value="data3">Data 3</option>
-                                                <option value="data4">Data 4</option>
-                                                <option value="data5">Data 5</option>
+                                                <option value="data1">Position</option>
+                                                <option value="data2">Rotation</option>
+                                                <option value="data3">Scale</option>
+                                                <option value="data4">Category</option>
+                                                <option value="data5">Light</option>
                                             </select>
                                         </td>
                                         <td> 
                                             <input type="text" class="text-black border rounded-md p-2 w-full">
                                         </td>
                                     </tr>
-                                    <!-- Existing data items -->
+                            
                                 @foreach($dataItems as $dataItem)
                                 @if($dataItem->exists) {{-- Check if the data item still exists --}}
-                                        <!-- Existing data items -->
+                                      
                                         <tr data-id="{{ $dataItem->id }}">
-                                            <!-- ... (other columns) ... -->
+                                          
                                             <td class="flex space-x-2">
                                                 <button class="px-2 py-1 bg-green-500 text-white rounded-md">Edit</button>
                                                 <button class="px-2 py-1 bg-red-500 text-white rounded-md" onclick="confirmDelete(this)" data-id="{{ $dataItem->id }}">Delete</button>

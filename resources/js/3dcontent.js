@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
     
     console.log('Initializing 3D scene...');
@@ -56,7 +54,7 @@ function loadModel(container, scene, camera, renderer) {
     console.log('loading model');
     const loader = new THREE.GLTFLoader();
     const modelPath = container.dataset.modelPath;
-    //const modelPath = '/storage/models/gltf/scene.gltf';
+
 
     loader.load(modelPath, (gltf) => {
         scene.add(gltf.scene);
@@ -68,21 +66,6 @@ function loadModel(container, scene, camera, renderer) {
     }, undefined, (error) => {
         console.error('Error loading 3D model:', error);
         
-        //obj & mtl load
-       /* var mesh = null;
-
-        var mtlLoader = new THREE.MTLLoader(); 
-         
-        mtlLoader.load( '/storage/models/obj/ToyCar.mtl', function( materials ) {
-          materials.preload();
-          var objLoader = new THREE.OBJLoader();
-          objLoader.setMaterials( materials );
-         
-          objLoader.load( '/storage/models/obj/ToyCar.obj', function ( object ) {    
-              mesh = object;
-              scene.add( mesh );
-          });
-        });*/
     });
 }
        

@@ -1,6 +1,9 @@
-// content.js
+document.addEventListener('DOMContentLoaded', function () {
+    // Add Data button click event
+    console.log('Content js Script loaded');
 
-function downloadModelAndMetadata(title, description, modelPath) {
+    window.downloadModelAndMetadata=function(title, description, modelPath) {
+//function downloadModelAndMetadata(title, description, modelPath) {
     const metadata = {
         title: title,
         description: description,
@@ -55,3 +58,7 @@ function embedMetadata(gltfData, metadata) {
 
     return embeddedGltfData;
 }
+
+});
+
+

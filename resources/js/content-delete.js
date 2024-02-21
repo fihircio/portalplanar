@@ -1,6 +1,8 @@
-// content-delete.js
-
-function confirmDeleteContent(button) {
+document.addEventListener('DOMContentLoaded', function () {
+    // Add Data button click event
+    console.log('Content delete js Script loaded');
+    
+    window.confirmDeleteContent=function(button) {
     if (confirm("Are you sure you want to delete this content?")) {
         const contentId = button.getAttribute('data-content-id');
         deleteContent(contentId);
@@ -35,3 +37,6 @@ function deleteContent(contentId) {
         // Handle errors as needed
     });
 }
+
+});
+

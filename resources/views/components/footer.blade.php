@@ -2,7 +2,7 @@
 <footer class="bg-gray-800 text-white p-4">
     <div class="container mx-auto flex justify-between items-center">
         <div>
-            <p>&copy; 2023 Your Company</p>
+            <p>&copy; 2024 PlanAR. All Right Reserved.</p>
         </div>
         <div>
             <!-- Add your social media icons here -->

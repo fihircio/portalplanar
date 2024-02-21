@@ -30,24 +30,23 @@
                     >
                         Search
                     </button>
+                    
                 </div>
 
 
                     @if($contentItems->isEmpty())
                         <!-- Empty state -->
-                        <div id="empty-state" class="border-dashed border-2 p-6 rounded-md cursor-move">
+                        <div id="empty-state" class="flex flex-col items-center justify-center border-dashed border-2 p-6 rounded-md cursor-move">
                         <p class="text-lg">You don't have any content yet. Start by adding some!</p>
+                        <x-upload-modal />
                     @else
                     <!-- Add your grid list component here -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                     @foreach($contentItems as $contentItem)
                         <!-- Example content item -->
-                        <div class="bg-gray-100 p-4 rounded-md">
-
-                           
+                        <div class="bg-gray-100 p-4 rounded-md">                       
                        <div class="model-container" id="model-container-{{ $contentItem->id }}" data-model-path="{{ asset( $contentItem->model_path) }}"></div>  
-                        
-               
+
                             <!-- Content item details -->
                             <h4 class="text-lg font-semibold mb-2 text-black">{{ $contentItem->title }}</h4>
                             <p class="text-gray-600">{{ $contentItem->description }}</p>
@@ -55,8 +54,23 @@
                             <!-- Download and Delete buttons -->
                             <div class="mt-4 flex space-x-4">
                             <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md" onclick="downloadModelAndMetadata('{{ $contentItem->title }}', '{{ $contentItem->description }}', '{{ asset($contentItem->model_path) }}')">Download Model and Metadata</a>
-                                <button class="px-2 py-1 bg-red-500 text-white rounded-md" data-content-id="{{ $contentItem->id }}" onclick="confirmDeleteContent(this)">Delete</button>
+                            <button class="px-2 py-1 bg-red-500 text-white rounded-md" data-content-id="{{ $contentItem->id }}" onclick="confirmDeleteContent(this)">Delete</button>
+                        
+                            <div x-data="{ arPopup: false, contentId: null, mode: null }">
+                                <a href="#" class="px-4 py-2 bg-green-500 text-white rounded-md" @click="openARModePopup()">AR Mode</a>
+
+                                <div x-show="arPopup" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                                    <div class="bg-white p-6 rounded-md shadow-md">
+                                        <h3 class="text-lg font-semibold mb-4">Select AR Mode</h3>
+                                        <div class="flex space-x-4">
+                                            <button @click="generateQRCode('floor', contentId)">Floor Mode</button>
+                                            <button @click="generateQRCode('image', contentId)">Image Mode</button>
+                                        </div>
+                                        <button @click="closeARModePopup()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Close</button>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                             <!-- Add more details or buttons as needed -->
                             
                         </div>

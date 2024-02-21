@@ -21,7 +21,7 @@
             <!-- Description Input -->
             <div class="mb-4">
                 <label for="description" class="block text-sm font-medium text-gray-700">Description:</label>
-                <textarea name="description" id="description" class="mt-1 p-2 border rounded-md text-black"></textarea>
+                <input type="text" name="description" id="description" class="mt-1 p-2 border rounded-md text-black">
             </div>
             <!-- File Upload -->
             <div class="mb-4">

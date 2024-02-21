@@ -1,5 +1,8 @@
+document.addEventListener('DOMContentLoaded', function () {
+    // Add Data button click event
+    console.log('Confirm data js Script loaded');
 
-function confirmData(row) {
+ window.confirmData=function(row) {
     if (confirm("Are you sure you want to confirm this data?")) {
         // Perform the confirm action here
         // You can add new data or take any other necessary action
@@ -78,3 +81,4 @@ function addNewDataToContent(row) {
 
     // Perform any additional actions needed for the new row
 }
+});

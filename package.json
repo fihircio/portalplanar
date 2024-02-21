@@ -1,21 +1,32 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "@tailwindcss/forms": "^0.5.2",
-        "alpinejs": "^3.10.5",
-        "autoprefixer": "^10.4.13",
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.7.4",
-        "postcss": "^8.4.21",
-        "postcss-import": "^12.0.1",
-        "tailwindcss": "^3.2.6",
-        "vite": "^4.0.0"
-    },
-    "dependencies": {
-        "three": "^0.160.0"
-    }
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.2",
+    "alpinejs": "^3.10.5",
+    "autoprefixer": "^10.4.13",
+    "axios": "^1.1.2",
+    "laravel-mix": "^6.0.49",
+    "laravel-vite-plugin": "^0.7.4",
+    "postcss": "^8.4.21",
+    "postcss-import": "^12.0.1",
+    "tailwindcss": "^3.2.6",
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "name": "portalplanar",
+  "description": "Laravel boilerplate repository to create simple demo-projects. It allows to quickly add new routes/pages, and has examples of a table page, and a form page.",
+  "version": "1.0.0",
+  "main": "postcss.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

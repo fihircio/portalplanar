@@ -1,16 +1,35 @@
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('upload model loaded');
     const sketchfabInput = document.getElementById('sketchfab-input');
     const modelFileInput = document.getElementById('model-file');
+    const form = document.getElementById('uploadfileform'); // Replace 'your-form-id' with the actual ID of your form
 
     modelFileInput.addEventListener('change', function () {
-        handleModelFileUpload(this.files[0]);
+       // handleModelFileUpload(this.files[0]);
+        const modelPathElement = document.getElementById('model-path');
+        if (modelPathElement) {
+            modelPathElement.textContent = `Selected Model File: ${selectedFile.name}`;
+        }
     });
 
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Check if the file input has a file selected
+        const selectedFile = modelFileInput.files[0];
+        if (!selectedFile) {
+            console.log('No file selected. Please choose a file.');
+            return;
+        }
+        // Handle the file upload when the form is submitted
+        handleModelFileUpload(selectedFile);
+    });
+    
     sketchfabInput.addEventListener('change', function () {
         handleSketchfabUpload(this.value);
     });
 
-    function handleModelFileUpload(file) {
+   function handleModelFileUpload (file) {
         const formData = new FormData();
         formData.append('model_file', file);
         formData.append('title', document.getElementById('title').value);
@@ -20,17 +39,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (modelPathElement) {
             modelPathElement.textContent = `Selected Model File: ${file.name}`;
         }
-    
         console.log('Model file uploaded:', file);
-    
+        
         const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-    
-        fetch('/content', {
+       
+        fetch('/content/store', {
             method: 'POST',
-            headers: {
+            headers: {   
                 'X-CSRF-TOKEN': csrfToken,
             },
             body: formData,
+            //redirect: 'follow',  // Follow the redirect
         })
         .then(response => response.json())
         .then(data => {
@@ -49,11 +68,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('No response received.');
     
                 // Log additional information about the error
-                console.error('Error name:', error.name);
+             /*   console.error('Error name:', error.name);
                 console.error('Error message:', error.message);
-                console.error('Error stack:', error.stack);
+                console.error('Error stack:', error.stack);*/
             }
         });
+        
     }
 
     function handleSketchfabUpload(sketchfabUrlOrId) {
@@ -81,4 +101,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching Sketchfab model:', error);
         });
     }
+
+    
 });
