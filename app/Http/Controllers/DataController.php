@@ -43,6 +43,10 @@ class DataController extends Controller
             // Add validation rules for other fields as needed
         ]);
 
+        AuditTrail::create([
+            'user_id' => auth()->id(), // Assuming you're using Laravel's built-in authentication
+            'activity' => 'Created new data entry',
+        ]);
         // Create a new Data model instance
         $data = new Data();
         $data->content_id = $request->input('content_id');
@@ -65,6 +69,11 @@ class DataController extends Controller
     public function destroy($id)
     {
         $data = Data::find($id);
+
+        AuditTrail::create([
+            'user_id' => auth()->id(), // Assuming you're using Laravel's built-in authentication
+            'activity' => 'delete data entry',
+        ]);
     
         if (!$data) {
             return response()->json(['message' => 'Data not found'], 404);

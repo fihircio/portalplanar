@@ -30,7 +30,7 @@ function deleteContent(contentId) {
         if (deletedItem) {
             deletedItem.remove();
         }
-        // You can perform additional actions if needed
+        window.location.reload();// You can perform additional actions if needed
     })
     .catch(error => {
         console.error('Error deleting content:', error);

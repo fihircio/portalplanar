@@ -1,4 +1,8 @@
 <x-app-layout>
+        <!-- Top Navigation Bar -->
+        <div class="bg-white border-b border-gray-200 p-8">
+        @include('layouts.topnavigation')
+    </div>
     <div class="bg-gray-800 text-white">
         <!-- Hero Section -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-12">

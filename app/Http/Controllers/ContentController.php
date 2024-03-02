@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Models\AuditTrail;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -42,6 +43,10 @@ class ContentController extends Controller
         // Create a unique folder name using timestamp
         $folderName = 'models/' . now()->timestamp;
 
+        AuditTrail::create([
+            'user_id' => auth()->id(), // Assuming you're using Laravel's built-in authentication
+            'activity' => 'Uploaded model onto server',
+        ]);
 
         // Set common attributes
         $commonAttributes = [
@@ -88,11 +93,14 @@ class ContentController extends Controller
         // Find the content by ID
         $content = Content::findOrFail($id);
         //$modelPath = $request->input('modelPath');
-        
 
         // Delete the content
         $content->delete();
        // Storage::delete($modelPath);
+       AuditTrail::create([
+        'user_id' => auth()->id(), // Assuming you're using Laravel's built-in authentication
+        'activity' => 'User deleted content model',
+        ]);
 
         // Return a response (e.g., JSON response)
         return response()->json(['message' => 'Content deleted successfully']);

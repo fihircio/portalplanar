@@ -11,6 +11,7 @@ use App\Http\Controllers\GetItemsIDController;
 use App\Http\Controllers\GetItemController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FetchContentController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ use App\Http\Controllers\Api\FetchContentController;
 
 // Authenticated web routes
 Route::middleware(['auth', 'web'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/content', [ContentController::class, 'index'])->name('content.index');
     Route::post('/content/store', [ContentController::class, 'store'])->name('content.store');
     Route::delete('/content/delete/{id}', [ContentController::class, 'destroy']);

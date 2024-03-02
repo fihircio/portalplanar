@@ -1,9 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Users') }}
-        </h2>
-    </x-slot>
+    <!-- Top Navigation Bar -->
+    <div class="bg-white border-b border-gray-200 p-4">
+        @include('layouts.topnavigation')
+    </div>
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar Navigation -->
+        @include('layouts.navigation')
+    <div class="flex-1 overflow-hidden">    
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Users') }}
+            </h2>
+        </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -40,10 +48,11 @@
                     <div class="mt-2">
                         {{ $users->links() }}
                     </div>
-
+                </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <x-footer />
 </x-app-layout>

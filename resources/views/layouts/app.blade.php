@@ -36,15 +36,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
          <!-- load all js using npx mix-->
          <script src="{{ mix('js/all.js') }}"></script>
-    <!--    <script>
-        function toggleSidebar() {
-            document.body.classList.toggle('sidebar-open');
-        }
-    </script>-->
+    
+    </script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+    
             
             <!-- Hamburger button 
         <button onclick="toggleSidebar()" class="fixed top-4 left-4 p-2 bg-gray-800 text-white rounded-md">

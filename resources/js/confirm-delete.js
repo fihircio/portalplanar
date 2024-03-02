@@ -43,7 +43,7 @@ function deleteData(dataId) {
         if (deletedRow) {
             deletedRow.remove();
         }
-        // You can perform additional actions if needed
+        window.location.reload();// You can perform additional actions if needed
     })
     .catch(error => {
         console.error('Error deleting data:', error);
