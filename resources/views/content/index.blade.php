@@ -71,22 +71,10 @@
                                             <!-- Download and Delete buttons -->
                                             <div class="mt-4 flex space-x-4">
                                                 <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md" onclick="downloadModelAndMetadata('{{ $contentItem->title }}', '{{ $contentItem->description }}', '{{ asset($contentItem->model_path) }}')">Download Model and Metadata</a>
-                                                <button class="px-2 py-1 bg-red-500 text-white rounded-md" data-content-id="{{ $contentItem->id }}" onclick="confirmDeleteContent(this)">Delete</button>
-
-                                                <div x-data="{ arPopup: false, contentId: {{ $contentItem->id }}, mode: null }">
-                                                    <a href="#" class="px-4 py-2 bg-green-500 text-white rounded-md" @click="openARModePopup()">AR Mode</a>
-
-                                                    <div x-show="arPopup" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-                                                        <div class="bg-white p-6 rounded-md shadow-md">
-                                                            <h3 class="text-lg font-semibold mb-4">Select AR Mode</h3>
-                                                            <div class="flex space-x-4">
-                                                                <button @click="generateQRCode('floor', contentId)">Floor Mode</button>
-                                                                <button @click="generateQRCode('image', contentId)">Image Mode</button>
-                                                            </div>
-                                                            <button @click="closeARModePopup()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <button class="px-2 py-1 bg-red-500 text-white rounded-md" data-content-id="{{ $contentItem->id }}" onclick="confirmDeleteContent(this)">Delete</button>                                             
+                                            
+                                                <x-ar-modal :contentId="$contentItem->id" />
+                                            
                                             </div>
                                         </div>
                                     @endforeach

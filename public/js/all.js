@@ -110,11 +110,14 @@ document.addEventListener('DOMContentLoaded', function () {
       contentId: contentId,
       mode: mode
     }).then(function (response) {
+      console.log('Response:', response);
       // Get the generated QR code URL
       var qrCodeURL = response.data.qrCodeURL;
 
-      // Use the qrCodeURL as needed (e.g., display, redirect, etc.)
+      // Display the QR code URL or use it as needed
       console.log('QR Code URL:', qrCodeURL);
+      // Example: display QR code image
+      document.getElementById('qr-code-image').src = qrCodeURL;
     })["catch"](function (error) {
       console.error('Failed to generate QR code:', error);
     });

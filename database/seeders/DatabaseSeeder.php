@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $user1 = User::factory()->admin()->create();
         $user2 = User::factory()->create();
         
+        
        
         // Create content items assigned to specific users
         Content::factory()->create([
@@ -43,6 +44,8 @@ class DatabaseSeeder extends Seeder
 
         // Additional data items can be created as needed
         Data::factory(5)->create(); // Creates 5 data items with random content assignments
+
+        $this->call(RolesSeeder::class);
 
     }
 }

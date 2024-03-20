@@ -10,6 +10,12 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(10)->create();
+         // Create users
+         User::factory(10)->create()->each(function ($user) {
+            // Assign 'staff' role to each user
+            $staffRole = Role::where('name', 'staff')->first();
+            $user->role()->associate($staffRole);
+            $user->save();
+        });
     }
 }
